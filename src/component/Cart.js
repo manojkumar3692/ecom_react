@@ -4,7 +4,7 @@ import { CartState } from '../context/CartContext'
 import { FaRegTrashAlt, FaRupeeSign, FaShoppingCart } from 'react-icons/fa';
 
 export default function Cart() {
-    const { state: { cart }, dispatch } = CartState()
+    const { state: { cart }, dispatch } = CartState();
     return (
         <Container>
             <Row>
