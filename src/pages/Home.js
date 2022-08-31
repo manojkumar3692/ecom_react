@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { CartState } from '../context/CartContext';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Rating from '../component/Rating';
@@ -6,32 +6,27 @@ import { FaRupeeSign } from 'react-icons/fa';
 import RatingFilter from '../component/RatingFilter';
 
 const Home = (props) => {
-    const [rating, setRating] = useState(0)
-    const { state: { products, cart }, dispatch, productState: { sortBy, byRating}, productDispatch } = CartState();
+    const { state: { products, cart }, dispatch, productState: { sortBy, byRating, searchQuery }, productDispatch } = CartState();
     const transformProduct = () => {
         let sortedProduct = products
-        console.log('Printing', byRating)
-        if(sortBy === 'low2high') {
-            sortedProduct = sortedProduct.sort((a,b) => Number(a.price).toFixed(0) - Number(b.price).toFixed(0) )
+        if (sortBy === 'low2high') {
+            sortedProduct = sortedProduct.sort((a, b) => Number(a.price).toFixed(0) - Number(b.price).toFixed(0))
         }
 
-        if(sortBy === 'high2low') {
-            sortedProduct = sortedProduct.sort((a,b) => Number(b.price).toFixed(0) - Number(a.price).toFixed(0) )
+        if (sortBy === 'high2low') {
+            sortedProduct = sortedProduct.sort((a, b) => Number(b.price).toFixed(0) - Number(a.price).toFixed(0))
         }
 
-        if(sortBy === 'popular') {
+        if (sortBy === 'popular') {
             sortedProduct = sortedProduct.filter((product) => product.rating >= 4)
         }
 
-        if(sortBy === 'popular') {
-            sortedProduct = sortedProduct.filter((product) => product.rating >= 4)
+        if (byRating) {
+            sortedProduct = sortedProduct.filter((product) => product.rating <= byRating)
         }
 
-        if(byRating) {
-            console.log('B sorted', sortedProduct)
-            sortedProduct = sortedProduct.map((product) => product.rating >= byRating)
-            console.log('A sorted', sortedProduct)
-            
+        if (searchQuery) {
+            sortedProduct = sortedProduct.filter((prod) => prod.name.toLowerCase().includes(searchQuery))
         }
 
         return sortedProduct
@@ -39,7 +34,7 @@ const Home = (props) => {
     }
 
     const filterByRating = (index) => {
-        productDispatch({type: 'FILTER_BY_RATING', payload: index + 1})
+        productDispatch({ type: 'FILTER_BY_RATING', payload: index + 1 })
     }
     return (
         <div style={{ margin: '1rem' }}>
@@ -48,11 +43,11 @@ const Home = (props) => {
                     <Col lg="3" className="bg-dark text-white p-3">
                         <p className='text-center'>Quick Filters</p>
                         <ul className="list-group">
-                            <li className="list-group-item" style={{cursor: "pointer"}} onClick={() => productDispatch({type: 'SORT_BY', payload: 'low2high'})}>Low By Price</li>
-                            <li className="list-group-item" style={{cursor: "pointer"}} onClick={() => productDispatch({type: 'SORT_BY', payload: 'high2low'})}>High By Price</li>
-                            <li className="list-group-item" style={{cursor: "pointer"}} onClick={() => productDispatch({type: 'SORT_BY', payload: 'popular'})}>By Popular</li>
-                            <li className="list-group-item" style={{cursor: "pointer"}} onClick={() => productDispatch({type: 'SORT_BY', payload: 'popular'})}>
-                                <RatingFilter rating={byRating} onclick={filterByRating}/>
+                            <li className="list-group-item" style={{ cursor: "pointer" }} onClick={() => productDispatch({ type: 'SORT_BY', payload: 'low2high' })}>Low By Price</li>
+                            <li className="list-group-item" style={{ cursor: "pointer" }} onClick={() => productDispatch({ type: 'SORT_BY', payload: 'high2low' })}>High By Price</li>
+                            <li className="list-group-item" style={{ cursor: "pointer" }} onClick={() => productDispatch({ type: 'SORT_BY', payload: 'popular' })}>By Popular</li>
+                            <li className="list-group-item" style={{ cursor: "pointer" }} onClick={() => productDispatch({ type: 'SORT_BY', payload: byRating })}>
+                                <RatingFilter rating={byRating} onclick={filterByRating} />
                             </li>
 
                         </ul>

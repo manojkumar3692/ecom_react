@@ -7,7 +7,11 @@ import { CartState } from '../context/CartContext';
 
 
 const Header = (props) => {
-    const { state: { cart }, dispatch } = CartState();
+    const { state: { cart, products }, dispatch, productState, productDispatch } = CartState();
+    const triggerSearch = (e) => {
+        let text = e.target.value;
+        productDispatch({ type: 'FILTER_BY_SEARCH', payload: text })
+    }
     return (
         <Navbar bg="dark" variant='dark' style={{ height: '80px' }}>
             <Container>
@@ -17,7 +21,7 @@ const Header = (props) => {
                     </Navbar.Brand>
                 </Link>
                 <Navbar.Text className="search">
-                    <FormControl style={{ width: 300 }} placeholder="Search products">
+                    <FormControl style={{ width: 300 }} placeholder="Search products" onChange={(e) => triggerSearch(e)}>
 
                     </FormControl>
                 </Navbar.Text>

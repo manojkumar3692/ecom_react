@@ -12,14 +12,17 @@ export const cartReducer = (state, action) => {
 }
 
 export const productReducer = (state, action) => {
-    switch(action.type) {
-        case 'SORT_BY' :
-            return {...state, sortBy: action.payload}
+    switch (action.type) {
+        case 'SORT_BY':
+            return { ...state, sortBy: action.payload }
             break;
-        case 'FILTER_BY_RATING' :
-            return {...state, byRating: action.payload}
+        case 'FILTER_BY_RATING':
+            return { ...state, byRating: action.payload }
             break;
-        default :
-            throw new Error('Error in product')    
+        case 'FILTER_BY_SEARCH':
+            return { ...state, searchQuery: action.payload }
+            break;
+        default:
+            throw new Error('Error in product')
     }
 }

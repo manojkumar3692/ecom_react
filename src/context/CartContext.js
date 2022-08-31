@@ -15,6 +15,8 @@ const Context = ({ children }) => {
         codAvailable: faker.datatype.boolean(),
         rating: faker.helpers.arrayElement([1, 2, 3, 4, 5])
     }))
+
+
     const [state, dispatch] = useReducer(cartReducer, {
         products: products,
         cart: []
@@ -23,8 +25,10 @@ const Context = ({ children }) => {
     const [productState, productDispatch] = useReducer(productReducer, {
         sortBy: '',
         byRating: 0,
+        searchQuery: []
     })
-    
+
+
     return <Cart.Provider value={{ state, dispatch, productState, productDispatch }}>
         {children}
     </Cart.Provider>
